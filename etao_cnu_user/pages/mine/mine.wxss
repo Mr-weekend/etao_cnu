@@ -1,0 +1,137 @@
+.container {
+  min-height: 100vh;
+  background: #f8f8f8;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.user-info {
+  background: #ffffff;
+  padding: 30rpx 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.info-right {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.edit-hint {
+  font-size: 26rpx;
+  color: #666;
+  display: block;
+}
+
+.stats {
+  display: flex;
+  padding: 30rpx 0;
+  background: #ffffff;
+  margin-top: 20rpx;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  border-right: 1rpx solid #eee;
+}
+
+.stat-item:last-child {
+  border-right: none;
+}
+
+.stat-item .count {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+}
+
+.stat-item .label {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 10rpx;
+  display: block;
+}
+
+.menu-list {
+  margin-top: 20rpx;
+}
+
+.menu-group {
+  background: #ffffff;
+  margin-bottom: 20rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item.logout {
+  justify-content: center;
+}
+
+.menu-item.logout text {
+  color: #ff4f4f;
+  flex: none;
+}
+
+.menu-item.logout .menu-icon {
+  margin-right: 12rpx;
+}
+
+.menu-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+
+.menu-item text {
+  font-size: 28rpx;
+  color: #333;
+  flex: 1;
+}
+
+.menu-item .count {
+  font-size: 24rpx;
+  color: #999;
+  margin-right: 20rpx;
+}
+
+.arrow{
+  width: 0;
+  height: 0;
+  border: 0 solid transparent;
+  border-bottom: 3.5px solid transparent;
+  border-top: 3.5px solid transparent;
+  border-left: 7px solid #ddd;
+}
+
+.login-hint {
+  color: #1aad19;
+}

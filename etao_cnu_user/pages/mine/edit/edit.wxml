@@ -1,0 +1,54 @@
+<!-- 引入.wxs文件 src为相对路径，module指定当前模块的名称 -->
+<wxs module="utils" src="../../../utils/utills.wxs"></wxs>
+<view class="container">
+  <view class="avatar-box">
+    <image 
+      class="avatar {{isUploading ? 'uploading' : ''}}" 
+      src="{{userInfo.avatarUrl}}" 
+      mode="aspectFill"
+      bindtap="chooseAvatar"
+    />
+    <text class="upload-text">点击更换头像</text>
+  </view>
+
+  <view class="form-item">
+    <text class="label">昵称</text>
+    <input 
+      class="input"
+      value="{{userInfo.userName}}"
+      placeholder="请输入昵称"
+      maxlength="20"
+      bindinput="onNicknameInput"
+    />
+  </view>
+
+  <view class="form-item">
+    <view class="form-label">性别</view>
+    <picker bindchange="onGenderChange" value="{{genderIndex}}" range="{{genderList}}" range-key="gender">
+      <view class="picker {{genderIndex === -1 ? 'placeholder' : ''}}">
+        {{genderIndex === -1 ? '请选择性别' : genderList[genderIndex].gender}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="form-item">
+    <text class="label">简介</text>
+    <view class="textarea-box">
+      <textarea 
+        class="textarea"
+        value="{{userInfo.userProfile}}"
+        placeholder="介绍一下自己吧"
+        maxlength="{{maxBioLength}}"
+        bindinput="onBioInput"
+      ></textarea>
+      <text class="word-count">{{userInfo.userProfile.length || 0}}/{{maxBioLength}}</text>
+    </view>
+  </view>
+
+  <view 
+    class="save-btn {{!utils.trim(userInfo.userName) ? 'disabled' : ''}}" 
+    bindtap="saveUserInfo"
+  >
+    保存
+  </view>
+</view> 

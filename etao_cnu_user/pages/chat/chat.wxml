@@ -1,0 +1,87 @@
+<view class="container">
+  <view class="loading-container" wx:if="{{loading && messages.length === 0}}">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+
+  <view class="content" wx:else>
+    <view class="goods-info" bindtap="navigateToGoods">
+      <image class="goods-image" src="{{goods.imageUrls[0]}}" mode="aspectFill"/>
+      <view class="goods-detail">
+        <text class="goods-name">{{goods.description}}</text>
+        <text class="goods-price">¥{{goods.price}}</text>
+      </view>
+      <view wx:if="{{goods.status === 'published'}}" class="buy-btn" catchtap="buyGoods" data-user-id="{{selfInfo.userId}} " data-goods-id="{{goods.goodsId}}">购买</view>
+    </view>
+
+    <!-- 聊天内容 -->
+    <scroll-view 
+      class="messages" 
+      scroll-y 
+      scroll-top="{{scrollTop}}"
+      scroll-with-animation
+      enhanced
+      show-scrollbar="{{false}}"
+      bindscrolltoupper="loadMoreMessages"
+      upper-threshold="50"
+    >
+      <block wx:for="{{messages}}" wx:key="index">
+        <!-- 消息时间 -->
+        <view class="message-time" wx:if="{{index === 0 || messages[index].formattedTime !== messages[index-1].formattedTime}}">
+          <text>{{item.formattedTime}}</text>
+        </view>
+        
+        <!-- 消息内容 -->
+        <view class="message-wrapper {{item.senderId === selfInfo.userId ? 'self' : ''}}">
+          <image 
+            class="avatar" 
+            src="{{item.senderId === selfInfo.userId ? selfInfo.avatarUrl : userInfo.avatarUrl}}"
+            mode="aspectFill"
+            bindtap="navigateToUserProfile"/>
+          
+          <view class="message-bubble">
+            <!-- 文本消息 -->
+            <view class="text-message" wx:if="{{item.type === 'text'}}">
+              {{item.content}}
+            </view>
+            
+            <!-- 图片消息 -->
+            <image 
+              class="image-message" 
+              wx:elif="{{item.type === 'image'}}" 
+              src="{{item.content}}" 
+              mode="widthFix"
+              bindtap="previewImage"
+              data-url="{{item.content}}"
+            />
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+
+    <!-- 输入区域 -->
+    <view class="input-area">
+      <view class="input-container">
+        <input 
+          type="text"
+          value="{{inputContent}}"
+          bindinput="onInput"
+          placeholder="说点什么..."
+          confirm-type="send"
+          bindconfirm="sendTextMessage"
+          disabled="{{sending}}"
+        />
+      </view>
+      
+      <!-- 图片按钮 -->
+      <view class="action-btn" bindtap="sendImageMessage">
+        <image src="/images/icon/photo.png" mode="aspectFit" />
+      </view>
+      
+      <!-- 发送按钮 -->
+      <view class="send-btn {{inputContent ? 'active' : ''}}" bindtap="sendTextMessage">
+        <text>发送</text>
+      </view>
+    </view>
+  </view>
+</view> 

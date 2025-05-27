@@ -1,0 +1,75 @@
+<view class="container">
+  <!-- 闲置物品图片轮播 -->
+  <swiper class="goods-swiper" indicator-dots circular>
+    <swiper-item wx:for="{{goods.imageUrls}}" wx:key="*this">
+      <image 
+        src="{{item}}" 
+        mode="aspectFill" 
+        bindtap="previewImage"
+        data-current="{{item}}"
+      />
+    </swiper-item>
+  </swiper>
+  <!-- 卖家信息 -->
+  <view class="seller-info" bindtap="navigateToSeller">
+    <image class="avatar" src="{{goods.publisher.avatarUrl}}" mode="aspectFill"/>
+    <view class="seller-detail">
+      <text class="username" data-user-id="{{goods.publisher.userId}}">{{goods.publisher.userName}}</text>
+      <view class="createtime">发布于：{{goods.publishTime}}</view>
+    </view>
+  </view>
+  <!-- 闲置物品信息 -->
+  <view class="goods-info" data-goods-id="{{goods.goodsId}}">
+    <view class="price">¥{{goods.price}}</view>
+    <view class="description">{{goods.description}}</view>
+    <view class="goods-stats">
+      <text class="stat-item">{{goods.viewCount}} 浏览</text>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar" wx:if="{{goods.status === 'published'}}" >
+    <view class="bottom-content flex flex-between">
+      <view class="left-actions flex flex-between">
+        <view class="action-item" wx:if="{{!isOwnGoods}}" bindtap="changeCollect">
+          <image src="/images/icon/{{isCollectedResult ? 'star_' : 'star'}}.png" mode="aspectFit" class="collectIcon"/>
+          <view class="left-actions-text">{{collectCount}}</view>
+        </view>
+        <view class="action-item" wx:if="{{isOwnGoods}}" bindtap="changeCollect">
+          <image src="/images/icon/star.png" mode="aspectFit" class="collectIcon"/>
+          <view class="left-actions-text">{{collectCount}}</view>
+        </view>
+      </view>
+      <block wx:if="{{!isOwnGoods}}">
+        <view wx:if="{{goods.status === 'published'}}" class="right-actions flex">
+          <view class="chat-btn" bindtap="startChat" data-goods-id="{{goods.goodsId}}"  data-user-id="{{goods.publisher.userId}}">聊聊吧</view>
+          <view class="buy-btn" bindtap="buyGoods">马上买</view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="manage-btn-container">
+          <view class="manage-btn" bindtap="showManageActions">管理</view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 闲置物品管理操作菜单 -->
+  <view class="manage-modal" wx:if="{{showManageModal}}" bindtap="hideManageModal">
+    <view class="manage-content" catchtap="stopPropagation">
+      <view class="manage-actions">
+        <view class="manage-item" bindtap="editGoods">
+          <text>编辑</text>
+        </view>
+        <view class="manage-item" bindtap="changeGoodsStatus">
+          <text>{{goods.status === 'published' ? '下架' : '重新上架'}}</text>
+        </view>
+        <view class="manage-item delete" bindtap="deleteGoods">
+          <text>删除</text>
+        </view>
+      </view>
+      <view class="manage-cancel" bindtap="hideManageModal">取消</view>
+    </view>
+  </view>
+
+</view> 

@@ -1,0 +1,110 @@
+<scroll-view 
+  class="scrollarea" 
+  scroll-y 
+  type="list"
+  refresher-enabled="{{true}}"
+  refresher-triggered="{{isRefreshing}}"
+  bindrefresherrefresh="onPullDownRefresh"
+  bindscrolltolower="onReachBottom"
+>
+  <view class="container">
+    <!-- 搜索按钮 -->
+    <view class="search-container">
+      <view class="search-bar" bindtap="navigateToSearch">
+        <icon type="search" size="14"></icon>
+        <text>搜索闲置物品</text>
+      </view>
+    </view>
+
+    <!-- 轮播图 -->
+    <!-- <swiper class="banner" indicator-dots autoplay circular>
+      <swiper-item wx:for="{{bannerList}}" wx:key="id">
+        <image src="{{item.imageUrl}}" mode="aspectFill"></image>
+      </swiper-item>
+    </swiper> -->
+
+    <!-- 分类导航 -->
+    <scroll-view 
+      class="category-scroll" 
+      scroll-x 
+      enable-flex 
+      show-scrollbar="{{false}}"
+      enhanced="{{true}}"
+    >
+      <view class="category-list">
+        <view 
+          class="category-item {{currentCategoryId === 0 ? 'selected' : ''}}" 
+          bindtap="onCategoryTap"
+          data-category-id="0"
+          data-index="-1"
+        >
+          <image 
+            src="/images/icon/all.png" 
+            mode="aspectFit"
+          ></image>
+          <text>全部</text>
+        </view>
+        <view 
+          class="category-item {{currentCategoryId === item.categoryId ? 'selected' : ''}}" 
+          wx:for="{{categories}}" 
+          wx:key="categoryId"
+          bindtap="onCategoryTap"
+          data-category-id="{{item.categoryId}}"
+          data-category-name="{{item.categoryName}}"
+          data-index="{{index}}"
+        >
+          <image 
+            src="{{item.icon || '/images/icon/etao_cnu_logo.png'}}" 
+            mode="aspectFit"
+          ></image>
+          <text>{{item.categoryName}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 闲置物品列表 -->
+    <view class="goods-list">
+      <view 
+        class="goods-item" 
+        wx:for="{{goodsList}}" 
+        wx:key="goodsId"
+        bindtap="navigateToDetail"
+        data-goods-id="{{item.goodsId}}"
+      >
+        <image 
+          class="goods-image" 
+          src="{{item.imageUrls[0]}}" 
+          mode="aspectFill"
+        ></image>
+        <view class="goods-info">
+          <text class="goods-title">{{item.description}}</text>
+          <view class="goods-price">¥{{item.price}}</view>
+          <view class="seller-info">
+            <image 
+              class="seller-avatar" 
+              src="{{item.publisher.avatarUrl}}" 
+              mode="aspectFill"
+            />
+            <text class="seller-name">{{item.publisher.userName}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多提示 -->
+    <view class="loading-more" wx:if="{{isLoading}}">
+      <text>加载中...</text>
+    </view>
+    <view class="no-more" wx:elif="{{!hasMore && goodsList.length > 0}}">
+      <text>没有更多了</text>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 发布按钮 -->
+<view class="publish-btn" bindtap="navigateToPublish">
+  <image src="/images/tabIcon/plus.png" mode="aspectFit" class="publish-icon"/>
+</view>
+
+<!-- 底部间距 -->
+<view style="width: 100%;height: calc(100rpx + env(safe-area-inset-bottom));"></view>

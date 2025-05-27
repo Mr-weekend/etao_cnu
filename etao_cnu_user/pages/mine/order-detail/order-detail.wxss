@@ -1,0 +1,241 @@
+.container {
+  padding-bottom: 140rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.loading-image {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 20rpx;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.status-section,
+.goods-section,
+.user-section,
+.review-section {
+  margin: 20rpx;
+  background: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.status-title {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.status-value {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.status-completed {
+  color: #4caf50;
+}
+
+.status-canceled {
+  color: #999;
+}
+
+.status-waiting {
+  color: #ff9800;
+}
+
+.status-time, .order-id {
+  padding: 10rpx 20rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.copy-btn {
+  color: #1296db;
+  margin-left: 10rpx;
+  padding: 2rpx 10rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  border: 1rpx solid #1296db;
+}
+
+.goods-content {
+  padding: 20rpx;
+}
+
+.goods-main-info {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.goods-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 8rpx;
+  margin-right: 20rpx;
+  background-color: #f5f5f5;
+}
+
+.goods-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.goods-title {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.4;
+  margin-bottom: 10rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.goods-price {
+  font-size: 32rpx;
+  color: #ff4f4f;
+  font-weight: bold;
+}
+
+.user-content {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+}
+
+.user-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  background-color: #f5f5f5;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.user-profile {
+  font-size: 24rpx;
+  color: #999;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.contact-btn {
+  padding: 8rpx 20rpx;
+  font-size: 26rpx;
+  color: #1296db;
+  border: 1px solid #1296db;
+  border-radius: 30rpx;
+}
+
+
+.address-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 16rpx 20rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.review-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.review-item image {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 20rpx;
+  background: #fff;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.action-btn {
+  min-width: 180rpx;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  line-height: 2;
+  border-radius: 40rpx;
+}
+
+.delete-btn {
+  color: #666;
+  background: #f5f5f5;
+}
+
+.cancel-btn {
+  color: #fff;
+  background: #ff9800;
+}
+
+.primary-btn {
+  color: #fff;
+  background: #ff4f4f;
+} 

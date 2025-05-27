@@ -1,0 +1,95 @@
+<view class="container">
+  <view class="loading-container" wx:if="{{loading}}">
+    <image class="loading-image" src="/images/loading.png" mode="aspectFit"></image>
+    <view>加载中...</view>
+  </view>
+
+  <block wx:else>
+    <!-- 订单状态 -->
+    <view class="status-section">
+      <view class="status-header">
+        <text class="status-title">订单状态</text>
+        <text class="status-value {{orderDetail.orderStatus === 'completed' ? 'status-completed' : (orderDetail.orderStatus === 'canceled' ? 'status-canceled' : 'status-waiting')}}">
+          {{orderDetail.orderStatus === 'completed' ? '交易成功' : (orderDetail.orderStatus === 'canceled' ? '交易关闭' : '等待见面交易')}}
+        </text>
+      </view>
+      <view class="status-time">下单时间：{{orderDetail.createTime}}</view>
+      <view class="order-id">订单编号：{{orderDetail.orderId}} <text class="copy-btn" bindtap="copyOrderId">复制</text></view>
+    </view>
+
+    <!-- 闲置物品信息 -->
+    <view class="goods-section">
+      <view class="section-title">闲置物品信息</view>
+      <view class="goods-content" bindtap="viewGoodsDetail">
+        <view class="goods-main-info">
+          <image class="goods-image" src="{{orderDetail.goodsInfo.imageUrls[0]}}" mode="aspectFill"></image>
+          <view class="goods-info">
+            <view class="goods-title">{{orderDetail.goodsInfo.description}}</view>
+            <view class="goods-price">¥ {{orderDetail.goodsInfo.price}}</view>
+          </view>
+        </view>
+        
+      </view>
+    </view>
+
+    <!-- 卖家信息 -->
+    <view class="user-section" wx:if="{{isCurrentUserBuyer}}">
+      <view class="section-title">卖家信息</view>
+      <view class="user-content" data-user-id="{{orderDetail.goodsInfo.publisher.userId}}" bindtap="viewUserProfile">
+        <image class="user-avatar" src="{{orderDetail.goodsInfo.publisher.avatarUrl}}" mode="aspectFill"></image>
+        <view class="user-info">
+          <view class="user-name">{{orderDetail.goodsInfo.publisher.userName}}</view>
+          <view class="user-profile" wx:if="{{orderDetail.goodsInfo.publisher.userProfile}}">{{orderDetail.goodsInfo.publisher.userProfile}}</view>
+        </view>
+        <view class="contact-btn" catchtap="contactUser">联系</view>
+      </view>
+    </view>
+
+    <!-- 买家信息 -->
+    <view class="user-section" wx:else>
+      <view class="section-title">买家信息</view>
+      <view class="user-content" data-user-id="{{orderDetail.buyer.userId}}" bindtap="viewUserProfile">
+        <image class="user-avatar" src="{{orderDetail.buyer.avatarUrl}}" mode="aspectFill"></image>
+        <view class="user-info">
+          <view class="user-name">{{orderDetail.buyer.userName}}</view>
+        </view>
+        <view class="contact-btn" catchtap="contactUser">联系</view>
+      </view>
+    </view>
+
+    <!-- 评价 -->
+    <view class="review-section" wx:if="{{orderDetail.orderStatus === 'completed'}}">
+      <view class="section-title">评价</view>
+      <view class="review-item" bindtap="navigateToComment">
+        <text>{{!isCurrentUserBuyer && !sellerCommented || isCurrentUserBuyer && !buyerCommented ? '去评价' : '查看评价'}}</text>
+        <image src="/images/arrow-right.png" mode="aspectFit"></image>
+      </view>
+    </view>
+
+    <view class="bottom-bar">
+      <!-- 买家操作 -->
+      <block wx:if="{{isCurrentUserBuyer}}">
+        <button class="action-btn delete-btn" bindtap="handleDeleteOrder" 
+                wx:if="{{orderDetail.orderStatus === 'completed' || orderDetail.orderStatus === 'canceled'}}">
+          删除订单
+        </button>
+        <button class="action-btn cancel-btn" bindtap="handleCancelOrder" 
+                wx:if="{{orderDetail.orderStatus === 'waiting'}}">
+          取消订单
+        </button>
+        <button class="action-btn primary-btn" bindtap="handleConfirmOrder" 
+                wx:if="{{orderDetail.orderStatus === 'waiting'}}">
+          确认收货
+        </button>
+      </block>
+
+      <!-- 卖家操作 -->
+      <block wx:else>
+        <button class="action-btn delete-btn" bindtap="handleDeleteOrder" 
+                wx:if="{{orderDetail.orderStatus === 'completed' || orderDetail.orderStatus === 'canceled'}}">
+          删除订单
+        </button>
+      </block>
+    </view>
+  </block>
+</view> 

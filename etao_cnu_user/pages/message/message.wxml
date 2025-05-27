@@ -1,0 +1,46 @@
+<!-- 引入.wxs文件 src为相对路径，module指定当前模块的名称 -->
+<wxs module="utils" src="../../utils/utills.wxs"></wxs>
+<scroll-view 
+  class="scrollarea" 
+  scroll-y 
+  type="list"
+  refresher-enabled="{{true}}"
+  refresher-triggered="{{isRefreshing}}"
+  bindrefresherrefresh="onPullDownRefresh"
+  wx:if="{{isLogin}}"
+>
+  <view class="container">
+    <!-- 消息列表 -->
+    <view class="message-list">
+      <view 
+        class="message-item" 
+        wx:for="{{messages}}" 
+        wx:key="id"
+        bindtap="navigateToChat"
+        data-userid="{{item.otherUserId}}"
+        data-goodsid="{{item.goodsId}}"
+      >
+        <!-- 发送者头像 -->
+        <image class="avatar" src="{{item.user.avatarUrl}}" mode="aspectFill"/>
+        
+        <!-- 消息内容 -->
+        <view class="message-content">
+          <view class="message-header">
+            <text class="nickname">{{item.user.userName}}</text>
+            <text class="time">{{utils.formatTime(item.lastMessageTime)}}</text>
+          </view>
+          <text class="content" wx:if="{{item.lastMessageType === 'image'}}">[图片]</text>
+          <text class="content" wx:else>{{item.lastMessage}}</text>
+        </view>
+
+        <!-- 闲置物品图片 -->
+        <view class="goods-info" wx:if="{{item.goods}}">
+          <image class="goods-image" src="{{item.goods.imageUrls[0]}}" mode="aspectFill"/>
+          <view class="unread" wx:if="{{item.unreadCount > 0}}">
+            {{item.unreadCount}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

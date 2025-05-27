@@ -1,0 +1,73 @@
+<view class="container">
+  <!-- 选项卡 -->
+  <view class="tabs">
+    <view class="tab {{activeTab === 'bought' ? 'active' : ''}}" 
+          bindtap="switchTab" 
+          data-tab="bought">
+      <text>买到的</text>
+      <text class="count">({{boughtCount}})</text>
+    </view>
+    <view class="tab {{activeTab === 'sold' ? 'active' : ''}}" 
+          bindtap="switchTab" 
+          data-tab="sold">
+      <text>卖出的</text>
+      <text class="count">({{soldCount}})</text>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 订单列表 -->
+  <scroll-view scroll-y class="order-list" wx:else>
+    <block wx:if="{{activeTab === 'bought'}}">
+      <view class="order-item" wx:for="{{boughtOrders}}" wx:key="orderId">
+        <view class="goods-info">
+          <image class="goods-image" src="{{item.goodsInfo.imageUrls[0]}}" mode="aspectFill"/>
+          <view class="goods-detail">
+            <text class="goods-name">{{item.goodsInfo.description}}</text>
+            <text class="goods-price">¥{{item.goodsInfo.price}}</text>
+          </view>
+        </view>
+        <view class="action-bar">
+          <text class="order-time">成交时间：{{item.completedAt}}</text>
+          <view class="comment-btn" bindtap="goToComment" data-order-id="{{item.orderId}}" data-type="bought">
+            去评价
+          </view>
+        </view>
+      </view>
+      <view class="empty" wx:if="{{boughtOrders.length === 0}}">
+        <text>暂无待评价订单</text>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="order-item" wx:for="{{soldOrders}}" wx:key="orderId">
+        <view class="goods-info">
+          <image class="goods-image" src="{{item.goodsInfo.imageUrls[0]}}" mode="aspectFill"/>
+          <view class="goods-detail">
+            <text class="goods-name">{{item.goodsInfo.description}}</text>
+            <text class="goods-price">¥{{item.goodsInfo.price}}</text>
+          </view>
+        </view>
+        <view class="action-bar">
+          <text class="order-time">成交时间：{{item.completedAt}}</text>
+          <view class="comment-btn" bindtap="goToComment" data-order-id="{{item.orderId}}" data-type="sold">
+            去评价
+          </view>
+        </view>
+      </view>
+      <view class="empty" wx:if="{{soldOrders.length === 0}}">
+        <text>暂无待评价订单</text>
+      </view>
+    </block>
+
+    <!-- 加载更多 -->
+    <view class="loading-more" wx:if="{{hasMore}}">
+      <text>加载更多...</text>
+    </view>
+  </scroll-view>
+</view>

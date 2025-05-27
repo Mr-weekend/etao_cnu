@@ -1,0 +1,74 @@
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-info">
+    <view class="user-header" bindtap="navigateToUserProfile">
+      <image 
+        class="avatar" 
+        src="{{userInfo.avatarUrl}}" 
+        mode="aspectFill"
+      />
+      <view class="info-right">
+        <text class="nickname">{{isLoggedIn ? userInfo.userName : '未登录'}}</text>
+        <text class="edit-hint" wx:if="{{isLoggedIn}}">点击查看个人主页 ></text>
+        <text class="edit-hint login-hint" wx:else>点击登录 ></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats">
+    <view class="stat-item" bindtap="navigateTo" data-path="published">
+      <text class="count">{{isLoggedIn ? (userStats.publishedCount || 0) : '--'}}</text>
+      <text class="label">发布的</text>
+    </view>
+    <view class="stat-item" bindtap="navigateTo" data-path="sold">
+      <text class="count">{{isLoggedIn ? (userStats.soldCount || 0) : '--'}}</text>
+      <text class="label">卖出的</text>
+    </view>
+    <view class="stat-item" bindtap="navigateTo" data-path="bought">
+      <text class="count">{{isLoggedIn ? (userStats.boughtCount || 0) : '--'}}</text>
+      <text class="label">买到的</text>
+    </view>
+    <view class="stat-item" bindtap="navigateTo" data-path="uncomment">
+      <text class="count">{{isLoggedIn ? (userStats.unCommentCount || 0) : '--'}}</text>
+      <text class="label">待评价</text>
+    </view>
+  </view>
+  <!-- 功能列表 -->
+  <view class="menu-list">
+    <view class="menu-group">
+      <view class="menu-item" bindtap="navigateTo" data-path="favorite">
+        <image class="menu-icon" src="/images/icon/star-outline.png" mode="aspectFit"/>
+        <text>我的收藏</text>
+        <text class="count">{{isLoggedIn ? (userStats.collectionCount || 0) : '--'}}</text>
+        <view class="arrow"></view>
+      </view>
+      <view class="menu-item" bindtap="navigateTo" data-path="history">
+        <image class="menu-icon" src="/images/icon/history.png" mode="aspectFit"/>
+        <text>浏览记录</text>
+        <text class="count">{{isLoggedIn ? (userStats.historyCount || 0) : '--'}}</text>
+        <view class="arrow"></view>
+      </view>
+
+    </view>
+    <view class="menu-group">
+      <view class="menu-item" bindtap="navigateTo" data-path="edit">
+        <image class="menu-icon" src="/images/icon/edit.png" mode="aspectFit"/>
+        <text>编辑资料</text>
+        <view class="arrow"></view>
+      </view>
+      <view class="menu-item" bindtap="navigateTo" data-path="auth">
+        <image class="menu-icon" src="/images/icon/auth.png" mode="aspectFit"/>
+        <text>身份认证</text>
+        <view class="arrow"></view>
+      </view>
+    </view>
+    <!-- 退出登录按钮 -->
+    <view class="menu-group" wx:if="{{isLoggedIn}}">
+      <view class="menu-item logout" bindtap="logout">
+        <image class="menu-icon" mode="aspectFit"/>
+        <text>退出登录</text>
+      </view>
+    </view>
+  </view>
+</view> 

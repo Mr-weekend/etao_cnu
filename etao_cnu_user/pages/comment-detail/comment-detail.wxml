@@ -1,0 +1,91 @@
+<view class="container">
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+
+  <view class="error-container" wx:elif="{{error}}">
+    <text>{{error}}</text>
+    <button class="back-btn" bindtap="goBack">返回</button>
+  </view>
+
+  <!-- 评价详情 -->
+  <view class="comment-container" wx:else>
+    <!-- 闲置物品信息 -->
+    <view class="goods-section">
+      <view class="goods-info">
+        <image class="goods-image" src="{{commentDetail.goodsInfo.imageUrl}}" mode="aspectFill"/>
+        <text class="goods-name">{{commentDetail.goodsInfo.description}}</text>
+      </view>
+
+      <view class="complete-time-container">
+        <text class="complete-time">成交时间：{{commentDetail.completedTime}}</text>
+      </view>
+
+    </view>
+    <!-- 买家评价 -->
+    <view class="comment-section" wx:if="{{commentDetail.buyerCommentContent}}">
+      <view class="comment-content">
+        <view class="user-info" bindtap="viewUserInfo" data-userid="{{commentDetail.buyer.userId}}">
+          <image class="user-avatar" src="{{commentDetail.buyer === null ? '/images/icon/anonymous.png': commentDetail.buyer.avatarUrl}}" mode="aspectFill"></image>
+          <view class="user-name">{{commentDetail.buyer === null? '匿名用户': commentDetail.buyer.userName}}</view>
+          <view class="right-container"><text class="right-text">买家评价</text></view>
+        </view>
+        <view class="comment-type">
+          <view class="tag-container">
+            <text class="type-tag {{commentDetail.buyerCommentType === 1 ? 'positive' : 'negative'}}">{{commentDetail.buyerCommentType === 1 ? '好评' : '差评'}}</text>
+          </view>
+          <text class="comment-time">{{commentDetail.buyerCommentTime}}</text>
+        </view>
+        <view class="comment-text">{{commentDetail.buyerCommentContent}}</view>
+        
+        <!-- 买家评价图片 -->
+        <view class="comment-images" wx:if="{{commentDetail.buyerCommentImageUrls.length > 0}}">
+          <view class="image-item" 
+                wx:for="{{commentDetail.buyerCommentImageUrls}}" 
+                wx:key="index" 
+                bindtap="previewImage" 
+                data-urls="{{commentDetail.buyerCommentImageUrls}}" 
+                data-current="{{item}}">
+            <image src="{{item}}" mode="aspectFill"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 卖家评价 -->
+    <view class="comment-section" wx:if="{{commentDetail.sellerCommentContent}}">
+      <view class="comment-content">
+        <view class="user-info" bindtap="viewUserInfo" data-userid="{{commentDetail.seller.userId}}">
+          <image class="user-avatar" src="{{commentDetail.seller.avatarUrl}}" mode="aspectFill"></image>
+          <view class="user-name">{{commentDetail.seller.userName}}</view>
+          <view class="right-container"><text class="right-text">卖家评价</text></view>
+        </view>
+        <view class="comment-type">
+          <view class="tag-container">
+            <text class="type-tag {{commentDetail.sellerCommentType === 1 ? 'positive' : 'negative'}}">{{commentDetail.sellerCommentType === 1 ? '好评' : '差评'}}</text>
+          </view>
+          <text class="comment-time">{{commentDetail.sellerCommentTime}}</text>
+        </view>
+        <view class="comment-text">{{commentDetail.sellerCommentContent}}</view>
+        
+        <!-- 卖家评价图片 -->
+        <view class="comment-images" wx:if="{{commentDetail.sellerCommentImageUrls.length > 0}}">
+          <view class="image-item" 
+                wx:for="{{commentDetail.sellerCommentImageUrls}}" 
+                wx:key="index" 
+                bindtap="previewImage" 
+                data-urls="{{commentDetail.sellerCommentImageUrls}}" 
+                data-current="{{item}}">
+            <image src="{{item}}" mode="aspectFill"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 无评价提示 -->
+    <view class="no-comment" wx:if="{{!commentDetail.buyerCommentContent && !commentDetail.sellerCommentContent}}">
+      <text>暂无评价</text>
+    </view>
+  </view>
+</view>

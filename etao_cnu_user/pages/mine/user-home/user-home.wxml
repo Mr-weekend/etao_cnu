@@ -1,0 +1,119 @@
+<wxs module="utils" src="../../../utils/utills.wxs"></wxs>
+<view class="container">
+  <view class="user-header">
+    <view class="user-info">
+      <image class="avatar" src="{{userHome.userInfo.avatarUrl}}" mode="aspectFill"/>
+      <view class="info-right">
+        <text class="username">{{userHome.userInfo.userName}}</text>
+        <text class="user-profile">{{userHome.userInfo.userProfile}}</text>
+        <text class="gender">{{userHome.userInfo.gender}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 选项卡 -->
+  <view class="tabs">
+    <view 
+      class="tab-item {{activeTab === 'goods' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="goods"
+    >
+      <view class="tab-content">
+        <text class="tab-label">闲置</text>
+      </view>
+      <view class="tab-badge" wx:if="{{goodsCount > 0}}">{{goodsCount}}</view>
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'reviews' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="reviews"
+    >
+      <view class="tab-content">
+        <text class="tab-label">评价</text>
+      </view>
+      <view class="tab-badge" wx:if="{{reviewCount > 0}}">{{reviewCount}}</view>
+    </view>
+  </view>
+
+  <!-- 闲置物品列表 -->
+  <view class="goods-list" wx:if="{{activeTab === 'goods'}}">
+    <view class="goods-item" wx:for="{{goodsList}}" wx:key="goodsId" bindtap="navigateToGoodsDetail" data-id="{{item.goodsId}}">
+      <image class="goods-image" src="{{item.imageUrls[0]}}" mode="aspectFill"/>
+      <view class="goods-info">
+        <text class="goods-description">{{item.description}}</text>
+        <text class="goods-price">¥{{item.price}}</text>
+      </view>
+      <view class="sold-tag" wx:if="{{item.status === 'sold'}}">已售出</view>
+    </view>
+    <view class="empty-tip" wx:if="{{goodsList.length === 0 && !isLoading}}">
+      <image src="/images/icon/empty.png" mode="aspectFit" class="empty-icon"></image>
+      <text>暂无闲置物品</text>
+    </view>
+  </view>
+
+  <!-- 评价列表 -->
+  <view class="review-list" wx:if="{{activeTab === 'reviews'}}">
+    <view class="review-items">
+      <view class="review-item" wx:for="{{reviewList}}" wx:key="index" bindtap="navigateToCommentDetail" data-order-id="{{item.orderId}}">
+        <view class="review-header" wx:if="{{userHome.userInfo.userId !== item.goodsInfo.userId}}"> 
+          <image class="reviewer-avatar" src="{{item.seller === null ? '/images/icon/anonymous.png': item.seller.avatarUrl}}" mode="aspectFill"/>
+          <view class="reviewer-info">
+            <text class="reviewer-name">{{item.seller === null ? '匿名用户': item.seller.userName}}</text>
+          </view>
+          <text class="review-time">{{utils.formatTime(item.sellerCommentTime)}}</text>
+        </view>
+        <view class="review-header" wx:else> 
+          <image class="reviewer-avatar" src="{{item.buyer === null ? '/images/icon/anonymous.png' : item.buyer.avatarUrl}}" mode="aspectFill"/>
+          <view class="reviewer-info">
+            <text class="reviewer-name">{{item.buyer === null ? '匿名用户' : item.buyer.userName}}</text>
+          </view>
+          <text class="review-time">{{utils.formatTime(item.buyerCommentTime)}}</text>
+        </view>
+        <view class="review-content">{{item.buyerCommentContent}}</view>
+        <view class="review-goods" bindtap="navigateToGoodsDetail" data-id="{{item.goodsInfo.goodsId}}">
+          <image class="goods-thumb" src="{{item.goodsInfo.imageUrl}}" mode="aspectFill"/>
+          <view class="goods-brief">
+            <text class="brief-title">{{item.goodsInfo.description}}</text>
+            <text class="brief-price">¥{{item.goodsInfo.price}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="empty-tip" wx:if="{{reviewList.length === 0 && !isLoading}}">
+        <image src="/images/icon/empty.png" mode="aspectFit" class="empty-icon"></image>
+        <text>暂无评价</text>
+      </view>
+    </view>
+  </view>
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{isLoading}}">
+    <text>加载中...</text>
+  </view>
+  <view class="no-more" wx:if="{{!hasMore && currentList.length > 0}}">
+    <text>没有更多了</text>
+  </view>
+  <view class="empty" wx:if="{{!isLoading && currentList.length === 0}}">
+    <text>暂无内容</text>
+  </view>
+
+  <view class="tab-content">
+    <view class="goods-list" wx:if="{{activeTab === 'publish'}}">
+      <view class="loading" wx:if="{{loadingPublish}}">加载中...</view>
+      <view class="empty-tip" wx:elif="{{publishList.length === 0}}">
+        <image class="empty-icon" src="/assets/icons/empty.png"></image>
+        <view>暂无发布的闲置物品</view>
+      </view>
+      <block wx:else>
+      </block>
+    </view>
+
+    <view class="comment-list" wx:elif="{{activeTab === 'comment'}}">
+      <view class="loading" wx:if="{{loadingComment}}">加载中...</view>
+      <view class="empty-tip" wx:elif="{{commentList.length === 0}}">
+        <image class="empty-icon" src="/assets/icons/empty.png"></image>
+        <view>暂无收到的评价</view>
+      </view>
+      <block wx:else>
+      </block>
+    </view>
+  </view>
+</view> 

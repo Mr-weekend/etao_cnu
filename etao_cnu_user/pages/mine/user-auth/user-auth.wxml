@@ -1,0 +1,55 @@
+<view class="container">
+  <!-- 未认证状态 -->
+  <block wx:if="{{!hasRecord}}">
+    <view class="auth-section">
+      <view class="title">学生身份认证</view>
+      <view class="desc">请上传清晰的校园卡照片进行认证</view>
+      <view class="upload-area" bindtap="chooseImage">
+        <image wx:if="{{tempImagePath}}" src="{{tempImagePath}}" mode="aspectFit" class="preview-image"/>
+        <view wx:else class="upload-placeholder">
+          <text>点击上传校园卡照片</text>
+        </view>
+      </view>
+      <button class="submit-btn" bindtap="submitAuth" disabled="{{!tempImagePath}}">
+        提交认证
+      </button>
+    </view>
+  </block>
+
+  <!-- 审核中状态 -->
+  <block wx:elif="{{auditStatus === 0}}">
+    <view class="auth-section">
+      <image src="/images/icon/audit.png" class="status-icon"/>
+      <view class="title">审核中</view>
+      <view class="desc">您的认证申请正在审核中，请耐心等待</view>
+    </view>
+  </block>
+
+  <!-- 审核通过状态 -->
+  <block wx:elif="{{auditStatus === 1}}">
+    <view class="auth-section">
+      <image src="/images/icon/success.png" class="status-icon"/>
+      <view class="title">认证成功</view>
+      <view class="desc">您已通过学生身份认证</view>
+    </view>
+  </block>
+
+  <!-- 审核不通过状态 -->
+  <block wx:elif="{{auditStatus === 2}}">
+    <view class="auth-section">
+      <image src="/images/icon/reject.png" class="status-icon"/>
+      <view class="title">审核未通过</view>
+      <view class="reject-reason">原因：{{rejectReason}}</view>
+      <view class="upload-area" bindtap="chooseImage">
+        <image wx:if="{{tempImagePath}}" src="{{tempImagePath}}" mode="aspectFit" class="preview-image"/>
+        <view wx:else class="upload-placeholder">
+          <text>重新上传校园卡照片</text>
+        </view>
+      </view>
+      <button class="submit-btn" bindtap="submitAuth" disabled="{{!tempImagePath}}">
+        重新提交
+      </button>
+    </view>
+  </block>
+  
+</view>

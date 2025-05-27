@@ -1,0 +1,83 @@
+<!-- 引入.wxs文件 src为相对路径，module指定当前模块的名称 -->
+<wxs module="utils" src="../../../utils/utills.wxs"></wxs>
+<view class="container">
+  <!-- 顶部操作栏 -->
+  <view class="action-bar {{isEditMode ? 'edit-mode' : ''}}">
+    <view class="left">
+      <text class="edit-btn" bindtap="toggleEditMode">{{isEditMode ? '完成' : '编辑'}}</text>
+    </view>
+    <view class="right" wx:if="{{isEditMode}}">
+      <text class="clear-btn" bindtap="clearAll">清空</text>
+    </view>
+  </view>
+  
+  <!-- 收藏列表 -->
+  <view class="collection-list">
+    <block wx:for="{{groupedCollections}}" wx:key="date" wx:for-item="group">
+      <view class="date-header">{{group.date}}</view>
+      <view class="group-items">
+        <view class="collection-item" 
+              wx:for="{{group.items}}" 
+              wx:key="goodsId"
+              bindlongpress="cancelCollection"
+              data-id="{{item.goodsInfo.goodsId}}"
+              bindtap="navigateToGoodsDetail">
+          <view class="checkbox" 
+                wx:if="{{isEditMode}}" 
+                catchtap="toggleSelect" 
+                data-goods-id="{{item.goodsInfo.goodsId - 0}}">
+                <icon wx:if="{{utils.indexOf(selectedItems,item.goodsInfo.goodsId) !== -1}}"
+                      type="success" 
+                      size="20" 
+                      color="#1aad19"/>
+                <icon wx:else 
+                      type="circle" 
+                      size="20" 
+                      color="#999"/>
+                </view>
+          <view class="goods-info">
+            <image class="goods-image" src="{{item.goodsInfo.imageUrls[0]}}" mode="aspectFill"/>
+            <view class="goods-detail">
+              <view class="goods-title">{{item.goodsInfo.description}}</view>
+              <view class="price">¥{{item.goodsInfo.price}}</view>
+              <view class="publisher">
+                <image class="publisher-avatar" src="{{item.goodsInfo.publisher.avatarUrl}}" mode="aspectFill"/> 
+                <text class="publisher-name">{{item.goodsInfo.publisher.userName}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar" wx:if="{{isEditMode}}">
+    <view class="select-all" bindtap="toggleSelectAll">
+      <icon wx:if="{{selectedItems.length === totalItems && totalItems > 0}}" 
+            type="success" 
+            size="20" 
+            color="#1aad19"/>
+      <icon wx:else 
+            type="circle" 
+            size="20" 
+            color="#999"/>
+      <text>全选</text>
+    </view>
+    <button class="batch-delete" 
+            bindtap="batchCancel" 
+            disabled="{{selectedItems.length === 0}}">
+      删除({{selectedItems.length}})
+    </button>
+  </view>
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{isLoading}}">
+    <text>加载中...</text>
+  </view>
+  <view class="no-more" wx:if="{{!hasMore && groupedCollections.length > 0}}">
+    <text>没有更多了</text>
+  </view>
+  <view class="empty" wx:if="{{!isLoading && groupedCollections.length === 0}}">
+    <text>暂无收藏闲置物品</text>
+  </view>
+</view>

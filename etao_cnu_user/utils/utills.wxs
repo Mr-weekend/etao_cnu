@@ -1,0 +1,52 @@
+// indexOf 方法
+var indexOfFunction = {
+	indexOf: function(value,id){
+		return value.indexOf(id)
+	}
+}
+// trim 方法
+var trimFunction = {
+	trim: function(value){
+		return value.trim()
+	}
+}
+// formatTime 方法
+function formatTimeFunction(dateStr) {
+  var now = getDate();
+  var target = getDate(dateStr);
+
+  if (isSameDay(now, target)) {
+    return formatHMS(target);
+  } else {
+    return formatYMD(target);
+  }
+}
+
+function isSameDay(a, b) {
+  return a.getFullYear() === b.getFullYear() &&
+         a.getMonth() === b.getMonth() &&
+         a.getDate() === b.getDate();
+}
+
+// 格式化成 时分秒
+function formatHMS(date) {
+  function pad(num) {
+    return num < 10 ? '0' + num : num;
+  }
+  return pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds());
+}
+
+// 格式化成 年月日
+function formatYMD(date) {
+  function pad(num) {
+    return num < 10 ? '0' + num : num;
+  }
+  return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-' + pad(date.getDate());
+}
+
+// 导出对外暴露的属性
+module.exports = {
+  indexOf: indexOfFunction.indexOf,
+  trim: trimFunction.trim,
+  formatTime: formatTimeFunction
+}

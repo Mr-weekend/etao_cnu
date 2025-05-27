@@ -1,0 +1,22 @@
+<view class="tab-bar">
+  <!-- <view class="tab-bar-border"></view> -->
+  <view 
+    wx:for="{{list}}" 
+    wx:key="index" 
+    class="tab-bar-item" 
+    data-path="{{item.pagePath}}" 
+    data-index="{{index}}" 
+    bindtap="switchTab"
+  >
+    <view class="tab-bar-icon-wrap">
+      <image 
+        src="{{selected === index ? item.selectedIconPath : item.iconPath}}"
+        class="tab-bar-icon"
+      />
+      <view style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
+      <view class="badge" wx:if="{{index === 1 && unreadCount > 0}}">
+        {{unreadCount > 99 ? '99+' : unreadCount}}
+      </view>
+    </view>
+  </view>
+</view> 

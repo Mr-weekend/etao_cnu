@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="form-item">
+    <textarea 
+      placeholder="描述一下你的闲置物品..." 
+      value="{{description}}"
+      bindinput="inputDescription"
+      maxlength="100"
+      class="description-input"
+    />
+    <view class="word-count">{{description.length}}/100</view>
+    
+    <view class="image-list">
+      <view class="image-item" wx:for="{{images}}" wx:key="*this">
+        <image src="{{item}}" mode="aspectFill"/>
+        <view class="remove-icon" bindtap="removeImage" data-index="{{index}}">
+          <icon type="clear" size="20" color="#fffeee"/>
+        </view>
+      </view>
+      <view class="add-image" bindtap="chooseImage" wx:if="{{images.length < maxImageCount}}">
+        <view class="plus">+</view>
+        <text class="add-image-text">给你的闲置来几张靓照吧~</text>
+        <text class="image-count">{{images.length}}/{{maxImageCount}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-item price-input">
+    <view class="price-wrapper">
+      <text class="price-label">价格</text>
+      <view class="input-wrapper">
+        <text class="currency-symbol">¥</text>
+        <input 
+          type="digit"
+          placeholder="设置价格" 
+          placeholder-class="price-placeholder"
+          value="{{price}}"
+          bindinput="inputPrice"
+          confirm-type="done"
+          adjust-position="{{true}}"
+          cursor-spacing="20"
+          maxlength="8"
+          
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类选择 -->
+  <view class="form-item">
+    <view class="form-label">分类</view>
+    <picker bindchange="onCategoryChange" value="{{categoryIndex}}" range="{{categories}}" range-key="categoryName">
+      <view class="picker {{categoryIndex === -1 ? 'placeholder' : ''}}">
+        {{categoryIndex === -1 ? '请选择闲置分类' : categories[categoryIndex].categoryName}}
+      </view>
+    </picker>
+  </view>
+
+  <button 
+    class="submit-btn {{isSubmitting ? 'disabled' : ''}}" 
+    bindtap="submitGoods"
+    disabled="{{isSubmitting}}"
+  >
+    {{isSubmitting ? '发布中...' : '发布'}}
+  </button>
+</view>

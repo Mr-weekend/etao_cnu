@@ -1,0 +1,95 @@
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error-container" wx:elif="{{error}}">
+    <image class="error-icon" src="/images/error.png" mode="aspectFit"></image>
+    <text>{{error}}</text>
+    <button class="back-btn" bindtap="goBack">返回</button>
+  </view>
+
+  <!-- 评价表单 -->
+  <view class="comment-form" wx:else>
+    <!-- 闲置物品信息 -->
+    <view class="goods-section">
+      <view class="goods-info">
+        <image class="goods-image" src="{{orderDetail.goodsInfo.imageUrls[0]}}" mode="aspectFill"></image>
+        <view class="goods-detail">
+          <text class="goods-name">{{orderDetail.goodsInfo.description}}</text>
+          <text class="goods-price">¥{{orderDetail.goodsInfo.price}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 评价类型 -->
+    <view class="form-section">
+      <view class="section-title">评价类型</view>
+      <view class="type-selector">
+        <view class="type-item {{commentType === 1 ? 'active' : ''}}" bindtap="onSelectCommentType" data-type="1">
+          <view class="type-icon">😀</view>
+          <text>好评</text>
+        </view>
+        <view class="type-item {{commentType === 2 ? 'active' : ''}}" bindtap="onSelectCommentType" data-type="2">
+          <view class="type-icon">😐</view>
+          <text>中评</text>
+        </view>
+        <view class="type-item {{commentType === 3 ? 'active' : ''}}" bindtap="onSelectCommentType" data-type="3">
+          <view class="type-icon">🙁</view>
+          <text>差评</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 评价内容 -->
+    <view class="form-section">
+      <view class="section-title">评价内容</view>
+      <textarea class="comment-textarea" 
+                placeholder="请输入您的评价内容..." 
+                value="{{content}}" 
+                bindinput="onInputContent"
+                maxlength="200"></textarea>
+      <view class="word-count">{{content.length}}/200</view>
+    </view>
+
+    <!-- 上传图片 -->
+    <view class="form-section">
+      <view class="section-title">上传图片 (最多9张)</view>
+      <view class="image-uploader">
+        <view class="image-list">
+          <view class="image-item" 
+                wx:for="{{images}}" 
+                wx:key="index">
+            <image src="{{item}}" mode="aspectFill" bindtap="onPreviewImage" data-index="{{index}}"></image>
+            <view class="delete-icon" catchtap="onDeleteImage" data-index="{{index}}">
+              <icon color="#fffeee" size="20px" type="clear" role="img"/>
+            </view>
+          </view>
+          <view class="upload-btn" bindtap="onChooseImage" wx:if="{{images.length < 9}}">
+            <view class="plus">+</view>
+            <text>添加图片</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 匿名评价 -->
+    <view class="form-section anonymous-section">
+      <view class="anonymous-change" bindtap="onChangeAnonymous">
+        <text>匿名评价</text>
+        <switch checked="{{isAnonymous === 1}}" color="#1296db" />
+      </view>
+      <text class="anonymous-hint">开启后，您的头像和昵称将不会显示</text>
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-section">
+      <button class="submit-btn" bindtap="submitComment" disabled="{{submitting || !content}}">
+        {{submitting ? '提交中...' : '提交评价'}}
+      </button>
+    </view>
+  </view>
+</view>

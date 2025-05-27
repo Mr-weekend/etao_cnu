@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/message/message",
+    "pages/mine/mine",
+    "pages/goods-detail/goods-detail",
+    "pages/chat/chat",
+    "pages/publish-goods/publish-goods",
+    "pages/mine/user-home/user-home",
+    "pages/mine/favorite/favorite",
+    "pages/mine/history/history",
+    "pages/mine/sold/sold",
+    "pages/mine/bought/bought",
+    "pages/mine/edit/edit",
+    "pages/search/search",
+    "pages/mine/user-auth/user-auth",
+    "pages/mine/my-publish/my-publish",
+    "pages/mine/order-detail/order-detail",
+    "pages/comment-detail/comment-detail",
+    "pages/publish-comment/publish-comment",
+    "pages/mine/unComment/unComment"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "易淘重师",
+    "backgroundColor": "#eeeeee",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
+  }
+}

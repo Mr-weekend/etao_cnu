@@ -1,0 +1,58 @@
+<view class="container">
+  <!-- Tab 切换栏 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'published' ? 'active' : ''}}" 
+          bindtap="switchTab" 
+          data-tab="published">
+      <text>发布中</text>
+      <text class="count">({{publishCount}})</text>
+    </view>
+    <view class="tab-item {{activeTab === 'removed' ? 'active' : ''}}" 
+          bindtap="switchTab" 
+          data-tab="removed">
+      <text>已下架</text>
+      <text class="count">({{removeCount}})</text>
+    </view>
+  </view>
+
+  <!-- 数据为空时显示的提示 -->
+  <view class="empty-container" wx:if="{{goodsList.length === 0 && !loading}}">
+    <view class="empty-text">{{activeTab === 'published' ? '您还没有发布的闲置物品' : '暂无下架的闲置物品'}}</view>
+    <button class="publish-btn" bindtap="navigateToPublish" wx:if="{{activeTab === 'published'}}">去发布</button>
+  </view>
+
+  <!-- 闲置物品列表 -->
+  <scroll-view 
+    class="goods-list" 
+    scroll-y 
+    bindscrolltolower="loadMoreGoods"
+    wx:if="{{goodsList.length > 0}}"
+  >
+    <view class="goods-item" wx:for="{{goodsList}}" wx:key="goodsId" bindtap="navigateToDetail" data-id="{{item.goodsId}}">
+      <image class="goods-image" src="{{item.imageUrls[0]}}" mode="aspectFill" lazy-load></image>
+      <view class="goods-info">
+        <view class="goods-description">{{item.description}}</view>
+        <view class="goods-price">¥{{item.price}}</view>
+      </view>
+      <view class="operation-container">
+        <view class="operation-btn edit-btn" catchtap="editGoods" data-goods="{{item}}">编辑</view>
+        <view class="operation-btn onsale-btn" catchtap="onsaleGoods" data-id="{{item.goodsId}}" wx:if="{{activeTab === 'removed'}}">上架</view>
+        <view class="operation-btn remove-btn" catchtap="removeGoods" data-id="{{item.goodsId}}" wx:if="{{activeTab === 'published'}}">下架</view>
+        <view class="operation-btn delete-btn" catchtap="deleteGoods" data-id="{{item.goodsId}}">删除</view>
+      </view>
+    </view>
+    
+    <!-- 加载更多 -->
+    <view class="loading-more" wx:if="{{hasMore}}">
+      <text>正在加载更多...</text>
+    </view>
+    <view class="no-more" wx:if="{{!hasMore && goodsList.length > 0}}">
+      <text>没有更多内容了</text>
+    </view>
+  </scroll-view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading && goodsList.length === 0}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+</view> 

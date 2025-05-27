@@ -1,0 +1,74 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrapper">
+      <icon type="search" size="16" color="#999" />
+      <input 
+        class="search-input" 
+        placeholder="搜索卖出的闲置" 
+        value="{{keyword}}"
+        bindinput="onInputKeyword"
+        confirm-type="search"
+        bindconfirm="searchOrders"
+      />
+      <icon wx:if="{{keyword}}" type="clear" size="16" color="#999" bindtap="clearSearch" />
+    </view>
+    <view class="search-btn" bindtap="searchOrders">搜索</view>
+  </view>
+
+  <!-- 卖出的闲置物品列表 -->
+  <view class="sold-list">
+    <view class="sold-item" wx:for="{{soldList}}" wx:key="orderId" bindlongpress="handleLongPress" data-orderid="{{item.orderId}}" bindtap="navigateToOrderDetail" data-orderId="{{item.orderId}}">
+      <!-- 交易时间和状态 -->
+      <view class="sold-header">
+        <view class="sold-time">{{item.createdAt}}</view>
+        <view class="order-status {{item.status === 'completed' ? 'status-completed' : (item.status === 'canceled' ? 'status-canceled' : 'status-waiting')}}">
+          {{item.status === 'completed' ? '交易完成' : 
+            (item.status === 'canceled' ? '交易关闭' : '等待见面交易')}}
+        </view>
+      </view>
+
+      <!-- 闲置物品信息 -->
+      <view class="goods-info">
+        <image class="goods-image" src="{{item.goodsInfo.imageUrls[0]}}" mode="aspectFill"/>
+        <view class="goods-detail">
+          <text class="goods-title">{{item.goodsInfo.description}}</text>
+          <text class="goods-price">¥{{item.goodsInfo.price}}</text>
+        </view>
+      </view>
+
+      <!-- 买家信息 -->
+      <view class="buyer-info">
+        <view class="buyer-left" catchtap="navigateToBuyer" data-user-info="{{item.buyer}}">
+          <image class="buyer-avatar" src="{{item.buyer.avatarUrl}}" mode="aspectFill"/>
+          <text class="buyer-name">{{item.buyer.userName}}</text>
+        </view>
+        <view class="action-btns">
+          <view class="contact-btn" catchtap="contactBuyer" data-user-id="{{item.buyer.userId}}" data-goods-id="{{item.goodsInfo.goodsId}}">
+            联系买家
+          </view>
+          <view 
+            wx:if="{{item.status === 'completed'}}"
+            class="review-btn {{commentStatus[item.orderId] ? 'reviewed' : ''}}" 
+            catchtap="navigateToComment" 
+            data-order-id="{{item.orderId}}"
+            data-hascomment="{{commentStatus[item.orderId]}}"
+          >
+            {{commentStatus[item.orderId] ? '查看评价' : '去评价'}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{isLoading}}">
+    <text>加载中...</text>
+  </view>
+  <view class="no-more" wx:if="{{!hasMore && soldList.length > 0}}">
+    <text>没有更多了</text>
+  </view>
+  <view class="empty" wx:if="{{!isLoading && soldList.length === 0}}">
+    <text>暂无卖出的闲置物品</text>
+  </view>
+</view> 
