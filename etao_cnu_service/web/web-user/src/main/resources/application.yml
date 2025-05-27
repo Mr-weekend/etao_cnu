@@ -1,0 +1,13 @@
+logging:
+  level:
+    cn.etaocnu.cloud.file.client: DEBUG
+
+feign:
+  client:
+    config:
+      service-file:
+        loggerLevel: FULL
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.etaocnu.cloud.system.mapper.SysGoodsMapper">
+  <resultMap id="BaseResultMap" type="cn.etaocnu.cloud.model.entity.Goods">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="view_count" jdbcType="INTEGER" property="viewCount" />
+    <result column="collect_count" jdbcType="INTEGER" property="collectCount" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="sold_time" jdbcType="TIMESTAMP" property="soldTime" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+</mapper>

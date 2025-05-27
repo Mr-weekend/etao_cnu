@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: server-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #Nacos地址
+        namespace: dev #nacos名称空间
+      config:
+        refresh-enabled: true
+        file-extension: yaml
+        namespace: dev #nacos配置文件的命名空间
+        server-addr: 127.0.0.1:8848
+        prefix: ${spring.application.name}

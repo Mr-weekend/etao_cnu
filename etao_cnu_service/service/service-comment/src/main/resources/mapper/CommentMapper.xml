@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.etaocnu.cloud.comment.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="cn.etaocnu.cloud.model.entity.Comment">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="is_anonymous" jdbcType="BIT" property="isAnonymous" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+</mapper>

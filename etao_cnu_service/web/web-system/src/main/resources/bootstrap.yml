@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: web-system
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #Nacos地址
+        namespace: dev #nacos名称空间
+      config:
+        refresh-enabled: true
+        file-extension: yaml
+        namespace: dev #nacos配置文件的命名空间
+        server-addr: 127.0.0.1:8848
+        prefix: ${spring.application.name}
+        shared-configs[0]:
+          data-id: common.yaml  #共享配置文件名
+          refresh: true #动态更新
+  main:
+    allow-bean-definition-overriding: true
